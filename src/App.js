@@ -23,6 +23,10 @@ class App extends Component {
 		localStorage.setItem('react-time', this.json);
 	}
 
+	componentWillUnmount() {
+		clearInterval(this.timerId);
+	}
+
 	handleClickStartStop = () => {
 		if (this.state.status === false) {
 			this.startTimer();
