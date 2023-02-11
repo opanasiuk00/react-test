@@ -2,30 +2,57 @@ import React, { Component } from 'react';
 
 class App extends Component {
 	state = {
-		posts: [
-			{ id: 'abc1', name: 'JS Basics' },
-			{ id: 'abc2', name: 'JS Advanced' },
-			{ id: 'abc3', name: 'React JS' }
-		]
+		email: '',
+		checkbox: false,
+	}
+	handleChange = (event) => {
+		this.setState({ [event.target.name]: event.target.value })
 	}
 
-	handleDelete = (id) => {
-		this.setState((prev) => {
-			return { posts: prev.posts.filter(item => item.id !== id) }
-		});
+	handleCkeckboxChange = (event) => {
+		this.setState({ [event.target.name]: event.target.checked })
+	}
+
+	handleSend = (event) => {
+		event.preventDefault();
+		if (!this.state.email.match(/^[^ ]+@[^ ]+\.[a-z]{2,3}$/)) {
+			alert('Email invalid');
+		} else if (this.state.checkbox === false) {
+			alert('You should accept all agreements');
+		} else {
+			alert('Thank you for your subscription');
+			this.setState({
+				email: '',
+				checkbox: false
+			});
+		}
 	}
 
 	render() {
 		return (
 			<div className='app'>
-				{this.state.posts.map((item) => (
-					<div key={item.id}>
-						<h2>{item.name}</h2>
-						<button onClick={() => (this.handleDelete(item.id))}>delete</button>
-					</div>
-				))}
+				<form>
+					<input
+						name='email'
+						type='text'
+						placeholder='Your email'
+						value={this.state.email}
+						onChange={this.handleChange}
+					/>
+					<label>
+						<input
+							name='checkbox'
+							type='checkbox'
+							checked={this.state.checkbox}
+							onChange={this.handleCkeckboxChange}
+						/>
+						I agree with terms and conditions
+					</label>
+					<button onClick={this.handleSend}>Send</button>
+				</form>
 			</div>
 		)
 	}
 }
+
 export default App;
