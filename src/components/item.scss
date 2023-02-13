@@ -1,0 +1,27 @@
+.item {
+	display: flex;
+	flex-direction: column;
+	gap: .5rem;
+	width: 29rem;
+	border: 1px solid $black;
+
+	&__img {
+		width: 100%;
+	}
+
+	&__title {
+		padding: 0 .2rem;
+	}
+
+	&__info {
+		display: flex;
+		justify-content: space-between;
+		padding: 0 .2rem;
+	}
+
+	&__type,
+	&__year {
+		text-transform: capitalize;
+		font-size: 1.2rem;
+	}
+}

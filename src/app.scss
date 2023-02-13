@@ -1,0 +1,44 @@
+@import './_variables.scss';
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	color: var(--black);
+	background: F5F6F8;
+	font-family: 'Noto Sans', sans-serif;
+	height: 100%;
+	font-size: 10px;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+li {
+	list-style: none;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+#root {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.container {
+	max-width: 122rem;
+	min-width: 30rem;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
+
+@import './layouts/header.scss';
+@import './layouts/main.scss';
+@import './components/search.scss';
+@import './components/item.scss';
+@import './layouts/footer.scss';

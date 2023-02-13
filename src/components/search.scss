@@ -1,0 +1,29 @@
+.search {
+	padding-bottom: 2rem;
+
+	&__top {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	&__input {
+		width: 70%;
+		border: none;
+		border-bottom: 1px solid $black;
+		font-size: 1.5rem;
+	}
+
+	&__input:focus {
+		outline: none;
+		border: none;
+		border-bottom: 1px solid $black;
+	}
+
+	&__button {
+		width: 20%;
+		background-color: $green;
+		border: none;
+		color: $white;
+	}
+}
