@@ -1,49 +1,48 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import Item from '../components/Item';
 import Search from '../components/Search';
 
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-class Main extends Component {
+const Main = () => {
 
-	state = {
-		movies: [],
-		status: 'loading'
-	}
+	const [movies, setMovies] = useState([]);
+	const [status, setStatus] = useState('loading');
 
-	componentDidMount() {
-		fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=matrix`).then(
-			res => res.json()).then(
-				({ Search }) => this.setState({ movies: Search, status: 'ok' }))
-	}
 
-	handleChangeSearch = (str = 'matrix', type = '') => {
-		this.setState({ status: 'loading' })
-		fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${str.length === 0 ? 'matrix' : str}&type=${type}`)
+	useEffect(() => {
+		handleChangeSearch();
+	}, []);
+
+	const handleChangeSearch = async (str = 'matrix', type = '') => {
+		setStatus('loading');
+		await fetch(`https://www.omdbapi.com/?apikey=${API_KEY}&s=${str.length === 0 ? 'matrix' : str}&type=${type}`)
 			.then(res => res.json())
-			.then(({ Search }) => this.setState({ movies: Search, status: Search === undefined ? 'nothing' : 'ok' }))
-			.catch(() => this.setState({ status: 'nothing' }))
+			.then(({ Search }) => {
+				setMovies(Search);
+				setStatus(Search === undefined ? 'nothing' : 'ok');
+			})
+			.catch(() => setStatus('nothing'))
 	}
-	render() {
-		return (
-			<main className='main'>
-				<div className='container'>
-					<Search handleChangeSearch={this.handleChangeSearch} />
-					<div className='main__inner'>
-						{(this.state.status === 'loading')
-							? 'loading'
-							: (this.state.status === 'ok')
-								? this.state.movies.map(({ Poster, Title, Type, Year, imdbID }) => (
-									<Item key={imdbID} Poster={Poster} Title={Title} Type={Type} Year={Year} />
-								))
-								: 'Nothing found'
-						}
-					</div>
+
+	return (
+		<main className='main'>
+			<div className='container'>
+				<Search handleChangeSearch={handleChangeSearch} />
+				<div className='main__inner'>
+					{(status === 'loading')
+						? 'loading'
+						: (status === 'ok')
+							? movies.map(({ Poster, Title, Type, Year, imdbID }) => (
+								<Item key={imdbID} Poster={Poster} Title={Title} Type={Type} Year={Year} />
+							))
+							: 'Nothing found'
+					}
 				</div>
-			</main>
-		)
-	}
+			</div>
+		</main>
+	)
 
 }
 export default Main
