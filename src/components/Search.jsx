@@ -1,73 +1,68 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-class Search extends Component {
+const Search = ({ handleChangeSearch }) => {
 
-	state = {
-		search: '',
-		type: ''
+	const [search, setSearch] = useState('')
+	const [type, setSType] = useState('')
+
+	const handleChangeType = (event) => {
+		setSType(event.target.value);
+		handleChangeSearch(search, event.target.value);
+	}
+	const handleChange = (event) => {
+		setSearch(event.target.value);
 	}
 
-	handleChange = (event) => {
-		this.setState(() =>
-			({ [event.target.name]: event.target.value }), () => {
-				this.props.handleChangeSearch(this.state.search, this.state.type)
-			}
-		)
-	}
-
-	handleKey = (e) => {
+	const handleKey = (e) => {
 		if (e.key === 'Enter') {
-			this.props.handleChangeSearch(this.state.search, this.state.type);
+			handleChangeSearch(search, type);
 		}
 	}
-
-	render() {
-		return (
-			<div className='search'>
-				<div className='search__top'>
-					<input
-						className='search__input'
-						name='search'
-						type='text'
-						placeholder='Search'
-						value={this.state.search}
-						onChange={this.handleChange}
-						onKeyDown={this.handleKey}
-					/>
-					<button className='search__button' onClick={() => this.props.handleChangeSearch(this.state.search)}>Search</button>
-				</div>
-				<div className='search__tipe'>
-					<label>
-						<input
-							type='radio'
-							name='type'
-							value=''
-							onChange={this.handleChange}
-							checked={this.state.type === ''}
-						/>
-						All</label>
-					<label>
-						<input
-							type='radio'
-							name='type'
-							value='movie'
-							onChange={this.handleChange}
-							checked={this.state.type === 'movie'}
-						/>
-						Movies only</label>
-					<label>
-						<input
-							type='radio'
-							name='type'
-							value='series'
-							onChange={this.handleChange}
-							checked={this.state.type === 'series'}
-						/>
-						Series only</label>
-				</div>
+	return (
+		<div className='search'>
+			<div className='search__top'>
+				<input
+					className='search__input'
+					name='search'
+					type='text'
+					placeholder='Search'
+					value={search}
+					onChange={handleChange}
+					onKeyDown={handleKey}
+				/>
+				<button className='search__button' onClick={() => handleChangeSearch(search, type)}>Search</button>
 			</div>
-		)
-	}
+			<div className='search__tipe'>
+				<label>
+					<input
+						type='radio'
+						name='type'
+						value=''
+						onChange={handleChangeType}
+						checked={type === ''}
+					/>
+					All</label>
+				<label>
+					<input
+						type='radio'
+						name='type'
+						value='movie'
+						onChange={handleChangeType}
+						checked={type === 'movie'}
+					/>
+					Movies only</label>
+				<label>
+					<input
+						type='radio'
+						name='type'
+						value='series'
+						onChange={handleChangeType}
+						checked={type === 'series'}
+					/>
+					Series only</label>
+			</div>
+		</div>
+	)
 }
 
 export default Search;
